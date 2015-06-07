@@ -1,0 +1,6 @@
+= form_for :warranty, url: '/home/create', remote: true do |f|
+  = f.label :imei
+  = f.text_field :imei
+  = f.submit "Check warranty"
+.status
+.expiration_date
