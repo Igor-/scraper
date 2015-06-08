@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
     def index
-      puts params
     end
+
     def create
 
       browser = Watir::Browser.new 
@@ -15,10 +15,15 @@ class HomeController < ApplicationController
       parse_result =  doc.at_css("#hardware-text").inner_html.match(/(:)(.*?)(<br>)/)
       if parse_result.present?
         expiration_date =  parse_result[2].strip
-        status = :in_warranty
+        status = "In warranty"
       else
         expiration_date = ""
-        status = :out_of_warranty
+        error_message = doc.at_css("#error").inner_html.strip
+        if error_message.present?
+          status = error_message 
+        else
+          status = "Out of warranty"
+        end
       end
             
       render json: {status: status, expiration_date: expiration_date}
